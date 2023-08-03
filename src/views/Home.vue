@@ -1,10 +1,8 @@
 <template>
+  <PostArticle /> 
+  <router-view/>
   <div>
-    <div class="ui main container">
-      <!-- 基本的なコンテンツはここに記載する -->
-      <div class="ui segment">
-      </div>
-    </div>
+    
   </div>
 </template>
 
@@ -15,12 +13,14 @@
 // import { baseUrl } from '@/assets/config.js';
 
 // const headers = {'Authorization' : 'mtiToken'};
+import PostArticle from "../components/PostArticle.vue";
 
 export default {
   name: 'Home',
 
   components: {
    // 読み込んだコンポーネント名をここに記述する
+   PostArticle
   },
 
   data() {
@@ -43,7 +43,7 @@ export default {
   created() {
     const token = window.localStorage.getItem('token')
     if(!token) {
-      this.$router.push({name: 'Login'})
+      this.$router.push({name: 'Home'})
     }
   },
   computed: {
