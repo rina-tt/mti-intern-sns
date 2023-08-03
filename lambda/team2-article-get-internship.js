@@ -28,12 +28,12 @@ exports.handler = async (event, context) => {
 
 try {
     // client.send()で全件取得するコマンドを実行
-    const article = (await client.send(command)).Items;
+    const articles = (await client.send(command)).Items;
  
-    if (article.length == 0) {
-      response.body = JSON.stringify({ article: [] });
+    if (articles.length == 0) {
+      response.body = JSON.stringify({ articles: [] });
     } else {
-      const unmarshalledArticlesItems = article.map((item) => unmarshall(item));
+      const unmarshalledArticlesItems = articles.map((item) => unmarshall(item));
       response.body = JSON.stringify({ articles: unmarshalledArticlesItems});
     }
   } catch (e) {
