@@ -1,4 +1,6 @@
 <template>
+  <PostArticle /> 
+  <router-view/>
   <div>
     <div v-if="isLoading" class="ui segment">
       <div class="ui active dimmer">
@@ -22,6 +24,7 @@
 // import { baseUrl } from '@/assets/config.js';
 
 // const headers = {'Authorization' : 'mtiToken'};
+import PostArticle from "../components/PostArticle.vue";
 import ArticleList from '@/components/ArticleList.vue';
 import SearchArticle from '@/components/SearchArticle.vue';
 import {baseUrl} from '@/assets/config.js';
@@ -31,6 +34,7 @@ export default {
 
   components: {
    // 読み込んだコンポーネント名をここに記述する
+   PostArticle
    ArticleList,
    SearchArticle
   },
