@@ -1,6 +1,6 @@
 <template>
  <div class="article-list">
-     <Article v-for="(article, index) in articles" :key="index" :authorId="article.userId" :timestamp="article.timestamp" :content="article.text" :category="article.category" />
+     <Article :deleteArticle=deleteArticle v-for="(article, index) in articles" :key="index" :authorId="article.userId" :timestamp="article.timestamp" :content="article.text" :category="article.category" />
  </div>
 </template>
 
@@ -19,7 +19,11 @@ export default {
         type: Array,
         required: true,
         default: []
-    }  
+    },
+    deleteArticle: {
+        type: Function,
+        required: true
+    }
   },
   data() {
       return {

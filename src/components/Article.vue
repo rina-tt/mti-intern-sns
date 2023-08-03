@@ -9,8 +9,7 @@
      </div>
      <div :v-if="isAuthor || category" class="bottom">
          <div v-if="isCategory" class="category">{{category}}</div>
-         <button v-if="isAuthor" class="mini negative ui button">削除</button>
-        
+         <button v-if="isAuthor" class="mini negative ui button" @click.prevent="deleteArticle({userId: authorId, timestamp})" >削除</button>
      </div>
  </div>
 </template>
@@ -29,7 +28,6 @@ export default {
         return formattedDateTime;
       },
       isCategory() {
-          console.log("bool: ",  this.category !== "");
           return this.category !== "";
       }
   },
@@ -54,6 +52,10 @@ export default {
         required: false,
         default: ""
     }, 
+    deleteArticle: {
+        type: Function,
+        required: true
+    }
   },
   data() {
       return {
