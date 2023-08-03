@@ -9,14 +9,14 @@
         </div><!--field-->
         
         <div class="fields">
-          <div class="field">
+          <div class="twelve wide field">
             <div class="ui tag label">
               <input type="text" v-model="post.category" placeholder="カテゴリー" >
             </div><!--label-->
           </div><!--field-->
           
           <div class="four wide field">
-            <button @click="postRequest()" class="ui  green  button right floated" type="submit">投稿</button>
+            <button @click="postRequest()" class="ui  blue  button right floated" type="submit">投稿</button>
           </div><!--field-->
           
         </div><!--fields-->  
