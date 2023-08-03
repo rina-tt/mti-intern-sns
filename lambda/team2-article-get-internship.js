@@ -1,4 +1,4 @@
-const { DynamoDBClient, ScanCommand } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient, ScanCommand, QueryCommand } = require("@aws-sdk/client-dynamodb");
 const { unmarshall, marshall} = require("@aws-sdk/util-dynamodb");
 const client = new DynamoDBClient({ region: "ap-northeast-1" });
 const TableName = "Article";
@@ -20,39 +20,31 @@ exports.handler = async (event, context) => {
   
   const qs = event.queryStringParameters; // クエリストリング
   
-  // userId指定なしのとき、全出力を返す
+  // userId指定なしのとき、全出力を返す(23 ~ 55)
   if (!qs?.userId) {
-    /*return {
-      //hasValidQs,
-      param: {
-        // ↓プロパティ名と変数名が同一の場合は、値の指定を省略できる。
-        TableName, // TableName: TableNameと同じ意味
+    const param = {
+        TableName,
         Limit: 100,
-      },
-    };*/
-  const param = {
-      TableName,
-      Limit: 100,
-  };
-
-  const command = new ScanCommand(param);
-
-  try {
-      // client.send()で全件取得するコマンドを実行
-      const articles = (await client.send(command)).Items;
-   
-      if (articles.length == 0) {
-        response.body = JSON.stringify({ articles: [] });
-      } else {
-        const unmarshalledArticlesItems = articles.map((item) => unmarshall(item));
-        
-        unmarshalledArticlesItems.sort((a, b) => {
-            return a.timestamp < b.timestamp ? -1 : 1;
-        });
-        
-        response.body = JSON.stringify({ articles: unmarshalledArticlesItems});
-      }
-    } catch (e) {
+    };
+  
+    const command = new ScanCommand(param);
+  
+    try {
+        // client.send()で全件取得するコマンドを実行
+        const articles = (await client.send(command)).Items;
+     
+        if (articles.length == 0) {
+          response.body = JSON.stringify({ articles: [] });
+        } else {
+          const unmarshalledArticlesItems = articles.map((item) => unmarshall(item));
+          
+          unmarshalledArticlesItems.sort((a, b) => {
+              return a.timestamp < b.timestamp ? -1 : 1;
+          });
+          
+          response.body = JSON.stringify({ articles: unmarshalledArticlesItems});
+        }
+      } catch (e) {
       response.statusCode = 500;
       response.body = JSON.stringify({
         message: "予期せぬエラーが発生しました。",
@@ -92,7 +84,7 @@ exports.handler = async (event, context) => {
     
     param.ExpressionAttributeValues = marshall(param.ExpressionAttributeValues)
   
-    const command = new ScanCommand(param);
+    const command = new QueryCommand(param);
   
   try {
       // client.send()で全件取得するコマンドを実行
