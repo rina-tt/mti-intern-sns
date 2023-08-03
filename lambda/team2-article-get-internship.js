@@ -26,21 +26,16 @@ exports.handler = async (event, context) => {
 
   const command = new ScanCommand(param);
 
-  try {
+try {
     // client.send()で全件取得するコマンドを実行
-    const articles = (await client.send(command)).Items;
-    
-    if(articles.length === 0) {
-      response.statusCode = 404;
-      response.body = JSON.stringify({message: "該当するデータが見つかりませんでした。"});
-      return response;
+    const article = (await client.send(command)).Items;
+ 
+    if (article.length == 0) {
+      response.body = JSON.stringify({ article: [] });
+    } else {
+      const unmarshalledArticlesItems = article.map((item) => unmarshall(item));
+      response.body = JSON.stringify({ articles: unmarshalledArticlesItems});
     }
-
-    const parsedArticles = articles.map((item) => unmarshall(item));
-    response.statusCode = 200;
-    response.body = JSON.stringify(parsedArticles);
-
-    //TODO: レスポンスボディを設定する
   } catch (e) {
     response.statusCode = 500;
     response.body = JSON.stringify({
