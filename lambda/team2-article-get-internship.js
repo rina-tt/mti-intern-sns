@@ -39,7 +39,7 @@ exports.handler = async (event, context) => {
           const unmarshalledArticlesItems = articles.map((item) => unmarshall(item));
           
           unmarshalledArticlesItems.sort((a, b) => {
-              return a.timestamp < b.timestamp ? -1 : 1;
+              return a.timestamp > b.timestamp ? -1 : 1;
           });
           
           response.body = JSON.stringify({ articles: unmarshalledArticlesItems});
@@ -96,8 +96,9 @@ exports.handler = async (event, context) => {
         const unmarshalledArticlesItems = articles.map((item) => unmarshall(item));
         
         unmarshalledArticlesItems.sort((a, b) => {
-            return a.timestamp > b.timestamp ? -1 : 1;
+            return a.timestamp > b.timestamp ? 1 : -1;
         });
+        //unmarshalledArticlesItems.sort((a, b) => b.timestamp - a.timestamp);
         
         response.body = JSON.stringify({ articles: unmarshalledArticlesItems});
       }
